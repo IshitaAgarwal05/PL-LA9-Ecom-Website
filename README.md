@@ -1,9 +1,8 @@
-# WhoAmI Studios - Product Listing Website (Part 1)
+# WhoAmI Studios - Product Listing Website
 
 Lab assignment: Full-Stack E-Commerce Application, Part 1.
 Product catalogue for **WhoAmI Studios** (handcrafted 3D-printed bookmarks, keychains and collectibles, Jaipur). Product data and images come from the WhoAmI brand catalogue.
 
-By Ishita Agarwal, M.Tech CSIS, MNIT Jaipur.
 
 ## Architecture
 
@@ -27,7 +26,7 @@ Browser (public/index.html, vanilla JS)  --fetch-->  Express REST API (server.js
 Prerequisites: Node.js 18+ and npm.
 
 ```bash
-git clone <this-repo-url>
+git clone https://github.com/IshitaAgarwal05/PL-LA9-Ecom-Website.git
 cd whoami-store
 npm install
 npm start
