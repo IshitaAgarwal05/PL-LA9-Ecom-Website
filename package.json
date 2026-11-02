@@ -1,0 +1,8 @@
+{
+  "name": "whoami-store",
+  "version": "1.0.0",
+  "description": "WhoAmI Studios - product listing website (Express + SQLite + vanilla JS)",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "dependencies": { "better-sqlite3": "^11.0.0", "express": "^4.19.2" }
+}
