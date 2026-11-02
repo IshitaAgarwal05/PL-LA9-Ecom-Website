@@ -1,8 +1,7 @@
-# WhoAmI Studios - Product Listing Website
+# WhoAmI Studios - Product Listing Website (Part 1)
 
 Lab assignment: Full-Stack E-Commerce Application, Part 1.
 Product catalogue for **WhoAmI Studios** (handcrafted 3D-printed bookmarks, keychains and collectibles, Jaipur). Product data and images come from the WhoAmI brand catalogue.
-
 
 ## Architecture
 
@@ -36,5 +35,14 @@ Open http://localhost:3000. No configuration needed. To reset the database, dele
 
 ## Screenshots
 
+**Product listing (dark theme, with hero and footer)**
 ![Product listing](screenshots/listing.png)
+
+**Search**
+![Search](screenshots/search.png)
+
+**Product details view**
 ![Product details](screenshots/details.png)
+
+**Light theme (toggle at top right)**
+![Light theme](screenshots/listing-light.png)
