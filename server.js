@@ -1,9 +1,10 @@
+const path = require('path');
 const express = require('express');
-const db = require('better-sqlite3')('store.db');
-db.exec(require('fs').readFileSync(__dirname + '/schema.sql', 'utf8')); // create + seed on start
+const db = require('better-sqlite3')(path.join(__dirname, 'store.db'));
+db.exec(require('fs').readFileSync(path.join(__dirname, 'schema.sql'), 'utf8')); // create + seed on start
 
 const app = express();
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // GET /api/products?q=text&category=Decor  -> product catalogue (search/filter)
 app.get('/api/products', (req, res) => {

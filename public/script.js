@@ -1,11 +1,44 @@
 const $ = (id) => document.getElementById(id);
 const app = $('app');
 const inr = (n) => '₹' + n.toLocaleString('en-IN');
+const imgUrl = (src) => (src && src.startsWith('/') ? src.slice(1) : src || '');
+
+// Fallback loader when running on static servers (like VS Code Live Server) without Express backend
+const fetchStaticFallback = async (url) => {
+  const products = await (await fetch('products.json')).json();
+  const parsed = new URL(url, window.location.href);
+  const path = parsed.pathname;
+
+  const idMatch = path.match(/\/api\/products\/(\d+)/);
+  if (idMatch) {
+    const item = products.find((p) => p.id === Number(idMatch[1]));
+    if (!item) throw 'Product not found';
+    return item;
+  }
+
+  const q = (parsed.searchParams.get('q') || '').toLowerCase();
+  const cat = parsed.searchParams.get('category') || '';
+  return products.filter((p) => {
+    const matchesSearch =
+      !q ||
+      p.name.toLowerCase().includes(q) ||
+      p.category.toLowerCase().includes(q) ||
+      p.description.toLowerCase().includes(q);
+    const matchesCategory = !cat || p.category === cat;
+    return matchesSearch && matchesCategory;
+  });
+};
 
 const get = async (url) => {
-  const r = await fetch(url);
-  if (!r.ok) throw (await r.json()).error;
-  return r.json();
+  try {
+    const r = await fetch(url);
+    if (!r.ok) {
+      return await fetchStaticFallback(url);
+    }
+    return await r.json();
+  } catch (err) {
+    return await fetchStaticFallback(url);
+  }
 };
 
 // Theme toggle (persisted in localStorage)
@@ -31,7 +64,7 @@ theme(
 // Product card component
 const card = (p) => `
   <a class="card" href="#/product/${p.id}">
-    <div class="img"><img loading="lazy" src="${p.image}" alt="${p.name}"></div>
+    <div class="img"><img loading="lazy" src="${imgUrl(p.image)}" alt="${p.name}"></div>
     <h3>${p.name}</h3>
     <div class="tag">${p.category}</div>
     <div class="price">${inr(p.price)}${p.original_price ? `<s>${inr(p.original_price)}</s>` : ''}</div>
@@ -77,7 +110,7 @@ const home = () => {
         <p>Enchanted 3D-printed artifacts for the quietly expressive — bookmarks, keychains and collectibles from the worlds you love, handcrafted in Jaipur.</p>
         <a class="btn" href="#/shop">Enter the Vault ✨</a>
       </div>
-      <img src="/img/hero.webp" alt="WhoAmI artifacts">
+      <img src="img/hero.webp" alt="WhoAmI artifacts">
     </section>`;
   shop();
 };
@@ -89,7 +122,7 @@ async function detail(id) {
     app.innerHTML = `
       <a href="#/shop">← Back to the vault</a>
       <div class="detail">
-        <div class="img"><img src="${p.image}" alt="${p.name}"></div>
+        <div class="img"><img src="${imgUrl(p.image)}" alt="${p.name}"></div>
         <div>
           <h1>${p.name}</h1>
           <div class="tag">${p.category}</div>
