@@ -1,0 +1,453 @@
+/* ==========================================
+   LOADER V2 — Typewriter + Golden Thread + Fingerprint Scan
+   Sequential 3-phase cinematic intro
+   ========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+
+.loader-v2 {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: #050508;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    transition: background 1200ms ease-out, opacity 800ms ease-out;
+}
+
+/* Phase 3: overlay dissolves to reveal site */
+.loader-v2-reveal {
+    background: rgba(5, 5, 8, 0);
+    pointer-events: none;
+    animation: revealFade 1800ms ease-out forwards;
+}
+
+@keyframes revealFade {
+    0% {
+        background: #050508;
+        opacity: 1;
+    }
+
+    40% {
+        background: rgba(5, 5, 8, 0.6);
+        opacity: 1;
+    }
+
+    100% {
+        background: transparent;
+        opacity: 0;
+    }
+}
+
+/* ==========================================
+   PHASE 1: TYPEWRITER
+   Golden monospace text, blinking cursor
+   ========================================== */
+
+.loader-typewriter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeInTypewriter 0.6s ease-out;
+}
+
+.loader-typewriter-text {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(28px, 5vw, 56px);
+    font-weight: 700;
+    color: transparent;
+    background: linear-gradient(135deg, #e8b230, #fdd835, #e8b230);
+    background-clip: text;
+    -webkit-background-clip: text;
+    letter-spacing: 0.2em;
+    white-space: nowrap;
+    text-shadow: 0 0 40px rgba(253, 216, 53, 0.15);
+}
+
+.loader-cursor {
+    display: inline-block;
+    font-family: 'Courier New', monospace;
+    font-size: clamp(28px, 5vw, 56px);
+    font-weight: 300;
+    color: #fdd835;
+    margin-left: 2px;
+    text-shadow: 0 0 10px rgba(253, 216, 53, 0.5);
+}
+
+.loader-cursor-hidden {
+    opacity: 0;
+}
+
+@keyframes fadeInTypewriter {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================
+   PHASE 2: GOLDEN THREAD (SVG stroke)
+   Stroke-dashoffset animation draws the text
+   ========================================== */
+
+.loader-thread-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    animation: threadFadeIn 0.5s ease-out;
+}
+
+.loader-thread-svg {
+    width: min(80vw, 550px);
+    height: auto;
+    overflow: visible;
+}
+
+/* Lightweight CSS glow instead of expensive SVG feGaussianBlur filter */
+.loader-thread-stroke {
+    filter: drop-shadow(0 0 6px rgba(253, 216, 53, 0.35));
+    will-change: stroke-dashoffset;
+}
+
+/* Fill fades in when JS adds .loader-thread-text-filled */
+.loader-thread-text-fill {
+    opacity: 0;
+    transition: opacity 500ms ease-out;
+}
+
+.loader-thread-text-filled {
+    opacity: 1;
+}
+
+@keyframes threadFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.loader-thread-tagline {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 14px;
+    font-style: italic;
+    color: rgba(253, 216, 53, 0.4);
+    letter-spacing: 0.3em;
+    opacity: 0;
+    animation: taglineAppear 800ms ease-out 1400ms forwards;
+}
+
+@keyframes taglineAppear {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================
+   PHASE 3: FINGERPRINT SCAN
+   Fingerprint arcs + scan line + brand reveal
+   ========================================== */
+
+.loader-scan-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    position: relative;
+    animation: scanFadeIn 0.5s ease-out;
+}
+
+.loader-fingerprint {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loader-fingerprint-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Fingerprint arc lines — draw in sequentially */
+.fp-line {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+}
+
+.fp-1 {
+    animation: fpDraw 0.8s ease-out 0.0s forwards;
+}
+
+.fp-2 {
+    animation: fpDraw 0.8s ease-out 0.05s forwards;
+}
+
+.fp-3 {
+    animation: fpDraw 0.8s ease-out 0.10s forwards;
+}
+
+.fp-4 {
+    animation: fpDraw 0.8s ease-out 0.15s forwards;
+}
+
+.fp-5 {
+    animation: fpDraw 0.8s ease-out 0.20s forwards;
+}
+
+.fp-6 {
+    animation: fpDraw 0.8s ease-out 0.25s forwards;
+}
+
+.fp-7 {
+    animation: fpDraw 0.7s ease-out 0.08s forwards;
+}
+
+.fp-8 {
+    animation: fpDraw 0.7s ease-out 0.13s forwards;
+}
+
+.fp-9 {
+    animation: fpDraw 0.7s ease-out 0.18s forwards;
+}
+
+.fp-10 {
+    animation: fpDraw 0.7s ease-out 0.23s forwards;
+}
+
+.fp-11 {
+    animation: fpDraw 0.7s ease-out 0.28s forwards;
+}
+
+.fp-12 {
+    animation: fpDraw 0.7s ease-out 0.33s forwards;
+}
+
+@keyframes fpDraw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.loader-scan-brand {
+    position: relative;
+    z-index: 2;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    color: transparent;
+    background: linear-gradient(135deg, #e8b230, #fdd835, #e8b230);
+    background-clip: text;
+    -webkit-background-clip: text;
+    opacity: 0;
+    animation: brandReveal 0.6s ease-out 0.5s forwards;
+}
+
+@keyframes brandReveal {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.fp-ring {
+    stroke-dasharray: 550;
+    stroke-dashoffset: 550;
+    animation: fpRingDraw 1.2s ease-out 0.3s forwards;
+}
+
+@keyframes fpRingDraw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Golden scan line — uses transform for GPU compositing instead of top */
+.loader-scan-line {
+    position: absolute;
+    top: 0;
+    left: -10%;
+    width: 120%;
+    height: 2px;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(253, 216, 53, 0.1) 15%,
+            rgba(253, 216, 53, 0.8) 50%,
+            rgba(253, 216, 53, 0.1) 85%,
+            transparent 100%);
+    will-change: transform, opacity;
+    animation: scanSweep 1.4s ease-in-out forwards;
+    pointer-events: none;
+}
+
+@keyframes scanSweep {
+    0% {
+        transform: translateY(-10vh);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(110vh);
+        opacity: 0;
+    }
+}
+
+.loader-scan-status {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 11px;
+    color: rgba(253, 216, 53, 0.3);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: statusFadeIn 0.5s ease-out 1s forwards;
+}
+
+@keyframes statusFadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scanFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.loader-scan-fadeout {
+    animation: scanFadeOut 1000ms ease-out forwards;
+}
+
+@keyframes scanFadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+/* ==========================================
+   SKIP BUTTON
+   ========================================== */
+
+.loader-skip {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 10001;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(253, 216, 53, 0.3);
+    color: rgba(253, 216, 53, 0.8);
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+}
+
+.loader-skip:hover {
+    color: #fff;
+    border-color: #fdd835;
+    background: rgba(253, 216, 53, 0.15);
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 0 20px rgba(253, 216, 53, 0.4);
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 768px) {
+    .loader-thread-svg {
+        width: min(90vw, 400px);
+    }
+
+    .loader-fingerprint {
+        width: 140px;
+        height: 140px;
+    }
+
+    .loader-skip {
+        bottom: 18px;
+        right: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .loader-thread-svg {
+        width: 92vw;
+    }
+
+    .loader-fingerprint {
+        width: 110px;
+        height: 110px;
+    }
+
+    .loader-scan-brand {
+        font-size: 14px;
+    }
+}
+
+/* Accessibility: reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+    .loader-thread-text,
+    .loader-thread-text-glow,
+    .loader-thread-text-fill,
+    .fp-line,
+    .loader-scan-line {
+        animation-duration: 0.2s !important;
+        animation-delay: 0s !important;
+    }
+
+    .loader-v2-reveal {
+        animation-duration: 0.3s !important;
+    }
+}
